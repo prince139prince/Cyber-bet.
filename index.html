@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CYBERBET | Premium Gaming Ecosystem</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CORE VARIABLES & THEME --- */
+        :root {
+            --bg-deep: #030308;
+            --bg-panel: #0b0b14;
+            
+            /* NEON PALETTE */
+            --neon-purple: #bc13fe;
+            --neon-blue: #00f0ff;
+            --neon-gold: #ffd700;
+            --neon-red: #ff2a6d;
+            
+            /* UI COLORS */
+            --glass-surface: rgba(20, 20, 35, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-highlight: rgba(255, 255, 255, 0.15);
+            
+            --text-primary: #ffffff;
+            --text-secondary: #8f90a6;
+            
+            --success: #00ffa3;
+            --danger: #ff0055;
+            
+            --border-radius: 16px;
+            --nav-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            min-height: 100vh;
+            /* Cyber Grid Background */
+            background-image: 
+                linear-gradient(rgba(188, 19, 254, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(188, 19, 254, 0.03) 1px, transparent 1px),
+                radial-gradient(circle at 50% 0%, rgba(188, 19, 254, 0.2) 0%, transparent 60%);
+            background-size: 40px 40px, 40px 40px, 100% 100%;
+            padding-bottom: 90px; /* Space for bottom nav */
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3, .brand-font { font-family: 'Orbitron', sans-serif; letter-spacing: 1px; }
+        .text-gradient {
+            background: linear-gradient(to right, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gold { color: var(--neon-gold); text-shadow: 0 0 10px rgba(255, 215, 0, 0.4); }
+        .text-glow { text-shadow: 0 0 10px var(--neon-purple); }
+
+        /* --- UTILITY & GLASSMORPHISM --- */
+        .glass-panel {
+            background: var(--glass-surface);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-highlight);
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .btn {
+            border: none;
+            outline: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #6a00ff, #bc13fe);
+            color: white;
+            box-shadow: 0 0 15px rgba(188, 19, 254, 0.4);
+        }
+        .btn-primary:hover { box-shadow: 0 0 25px rgba(188, 19, 254, 0.7); transform: translateY(-2px); }
+        
+        .btn-secondary {
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+        }
+        .btn-secondary:hover { background: rgba(0, 240, 255, 0.2); box-shadow: 0 0 15px rgba(0, 240, 255, 0.3); }
+
+        .btn-full { width: 100%; display: block; }
+
+        /* --- NAVIGATION --- */
+        .top-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(3, 3, 8, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .logo { font-size: 1.4rem; font-weight: 900; color: white; display: flex; align-items: center; gap: 8px; }
+        .logo i { color: var(--neon-blue); }
+
+        .wallet-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0,0,0,0.4);
+            padding: 6px 14px;
+            border-radius: 50px;
+            border: 1px solid var(--neon-gold);
+            cursor: pointer;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 500px;
+            height: 65px;
+            background: rgba(20, 20, 35, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .nav-item {
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            transition: 0.3s;
+            cursor: pointer;
+            width: 60px;
+        }
+        .nav-item i { font-size: 1.4rem; transition: 0.3s; }
+        .nav-item.active { color: var(--neon-blue); }
+        .nav-item.active i { transform: translateY(-5px); text-shadow: 0 0 10px var(--neon-blue); }
+
+        /* --- VIEWS --- */
+        .view { display: none; opacity: 0; animation: fadeIn 0.4s forwards; padding: 20px; }
+        .view.active { display: block; opacity: 1; }
+        
+        @keyframes fadeIn { to { opacity: 1; } }
+        
+        /* Shake Animation for Error */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .shake { animation: shake 0.3s ease-in-out; border-color: var(--danger) !important; }
+
+        /* --- HOME --- */
+        .hero-banner {
+            height: 160px;
+            border-radius: 16px;
+            background: linear-gradient(90deg, #1a0b2e, #000);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid var(--neon-purple);
+        }
+        .hero-banner::after {
+            content: ''; position: absolute; right: -20px; top: -50%; width: 200px; height: 200%;
+            background: radial-gradient(circle, var(--neon-purple) 0%, transparent 70%);
+            opacity: 0.2;
+        }
+        .hero-text h2 { font-size: 1.8rem; margin-bottom: 5px; color: white; }
+        .hero-text p { color: var(--neon-gold); font-weight: 700; }
+
+        .category-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: none;
+        }
+        .cat-pill {
+            background: rgba(255,255,255,0.05);
+            padding: 8px 16px;
+            border-radius: 30px;
+            white-space: nowrap;
+            font-size: 0.8rem;
+            border: 1px solid transparent;
+            color: #ccc;
+        }
+        .cat-pill.active { background: rgba(188, 19, 254, 0.2); border-color: var(--neon-purple); color: white; }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        @media(min-width: 768px) { .game-grid { grid-template-columns: repeat(4, 1fr); } }
+
+        .game-card {
+            position: relative;
+            background: #111;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+        .game-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 0 20px var(--neon-purple); 
+            border-color: var(--neon-purple);
+        }
+        .game-thumb {
+            height: 120px;
+            background: linear-gradient(45deg, #1f1f2e, #2a2a40);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: rgba(255,255,255,0.2);
+        }
+        .game-meta { padding: 10px; text-align: center; }
+        .game-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 4px; display: block; }
+        .game-win { font-size: 0.7rem; color: var(--neon-gold); }
+        .play-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: 0.3s;
+        }
+        .game-card:hover .play-overlay { opacity: 1; }
+
+        /* --- AUTH & FORMS --- */
+        .auth-container {
+            max-width: 400px;
+            margin: 40px auto;
+            text-align: center;
+        }
+        .input-group { position: relative; margin-bottom: 15px; text-align: left; }
+        .input-field {
+            width: 100%;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--glass-border);
+            padding: 14px 14px 14px 45px;
+            color: white;
+            border-radius: 8px;
+            outline: none;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+        .input-field:focus { border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(0,240,255,0.2); }
+        .input-icon { position: absolute; left: 15px; top: 16px; color: var(--text-secondary); }
+        .error-msg { color: var(--danger); font-size: 0.8rem; margin-bottom: 10px; display: none; }
+
+        /* --- WALLET & ADMIN --- */
+        .wallet-card {
+            background: linear-gradient(135deg, #1a0b2e, #000);
+            border: 1px solid var(--neon-gold);
+            padding: 25px;
+            text-align: center;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+        .balance-label { font-size: 0.8rem; letter-spacing: 2px; color: var(--neon-gold); opacity: 0.8; }
+        .balance-amount { font-size: 2.5rem; font-weight: 700; margin: 10px 0; font-family: 'Orbitron'; }
+        
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .admin-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .admin-table th { text-align: left; color: var(--neon-blue); padding: 10px 5px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .admin-table td { padding: 12px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #ccc; }
+        
+        .status-badge { padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; }
+        .status-active { background: rgba(0, 255, 163, 0.15); color: var(--success); }
+        .status-blocked { background: rgba(255, 0, 85, 0.15); color: var(--danger); }
+
+        /* --- MODAL --- */
+        .modal-backdrop {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex; align-items: flex-end; /* Bottom sheet on mobile */
+            opacity: 0; pointer-events: none; transition: 0.3s;
+        }
+        @media(min-width: 768px) { .modal-backdrop { align-items: center; justify-content: center; } }
+        
+        .modal-content {
+            width: 100%; max-width: 500px;
+            background: #0f0f1a;
+            border-top: 1px solid var(--neon-purple);
+            border-radius: 20px 20px 0 0;
+            padding: 30px;
+            transform: translateY(100%); transition: 0.3s;
+        }
+        @media(min-width: 768px) { .modal-content { border-radius: 20px; transform: translateY(20px); } }
+        
+        .modal-active { opacity: 1; pointer-events: all; }
+        .modal-active .modal-content { transform: translateY(0); }
+
+        /* LOADER */
+        .gp-loader { display: flex; gap: 8px; justify-content: center; margin: 20px 0; }
+        .gp-dot { width: 12px; height: 12px; background: var(--neon-blue); border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; }
+        .gp-dot:nth-child(1) { animation-delay: -0.32s; }
+        .gp-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav" id="topNav">
+        <div class="logo">
+            <i class="fas fa-bolt"></i> CYBER<span>BET</span>
+        </div>
+        <div id="authActions">
+            <button class="btn btn-primary btn-sm" onclick="app.router('auth')" style="padding: 8px 16px;">LOGIN</button>
+        </div>
+        <div id="userActions" style="display: none;">
+            <div class="wallet-pill" onclick="app.router('wallet')">
+                <i class="fas fa-wallet text-gold"></i>
+                <span style="font-weight: 700; color: white;">₹<span id="navBalance">0</span></span>
+                <i class="fas fa-plus-circle" style="color: var(--success);"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main id="appContainer">
+
+        <section id="view-auth" class="view active">
+            <div class="auth-container glass-panel">
+                <div style="margin-bottom: 30px;">
+                    <i class="fas fa-shield-alt" style="font-size: 3rem; color: var(--neon-purple);"></i>
+                    <h2 class="text-glow" style="margin-top: 15px;">MEMBER LOGIN</h2>
+                    <p class="text-secondary">Enter your credentials to access</p>
+                </div>
+                
+                <div id="login-form">
+                    <div class="input-group">
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" id="usernameInput" class="input-field" placeholder="Username">
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="passwordInput" class="input-field" placeholder="Password">
+                    </div>
+
+                    <div id="loginError" class="error-msg">
+                        <i class="fas fa-exclamation-circle"></i> Invalid Username or Password
+                    </div>
+
+                    <button class="btn btn-primary btn-full" onclick="auth.login()">SECURE LOGIN</button>
+                </div>
+                
+                <div style="margin-top: 20px; font-size: 0.8rem; color: #555;">
+                    <span>Don't have an account? <span class="text-gradient" style="cursor: pointer;">Register Now</span></span>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-home" class="view">
+            <div class="hero-banner">
+                <div class="hero-text" style="z-index: 2;">
+                    <p>WELCOME, <span id="userDisplayName" class="text-gradient">PLAYER</span></p>
+                    <h2 class="text-glow">200% DEPOSIT MATCH</h2>
+                    <button class="btn btn-secondary" style="margin-top: 10px;">CLAIM NOW</button>
+                </div>
+                <i class="fas fa-dice-d20" style="position: absolute; right: 20px; font-size: 6rem; color: var(--neon-purple); opacity: 0.5; animation: float 3s ease-in-out infinite;"></i>
+            </div>
+
+            <div class="category-scroll">
+                <div class="cat-pill active"><i class="fas fa-fire"></i> Hot</div>
+                <div class="cat-pill"><i class="fas fa-rocket"></i> Crash</div>
+                <div class="cat-pill"><i class="fas fa-gamepad"></i> Arcade</div>
+                <div class="cat-pill"><i class="fas fa-car"></i> Racing</div>
+                <div class="cat-pill"><i class="fas fa-puzzle-piece"></i> Puzzle</div>
+            </div>
+
+            <div style="margin-top: 25px; display: flex; justify-content: space-between; align-items: flex-end;">
+                <h3 class="text-gradient"><i class="fas fa-bolt"></i> TRENDING GAMES</h3>
+                <span class="text-secondary" style="font-size: 0.8rem;">View All</span>
+            </div>
+
+            <div class="game-grid" id="gameGridContainer">
+                </div>
+        </section>
+
+        <section id="view-wallet" class="view">
+            <div class="wallet-card">
+                <span class="balance-label">TOTAL ASSETS</span>
+                <div class="balance-amount text-gold">₹<span id="walletBal">0.00</span></div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <div style="flex: 1; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">
+                        <div style="font-size: 0.7rem; color: var(--text-secondary);">WINNINGS</div>
+                        <div style="font-weight: bold;">₹0.00</div>
+                    </div>
+                    <div style="flex: 1; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">
+                        <div style="font-size: 0.7rem; color: var(--text-secondary);">BONUS</div>
+                        <div style="color: var(--neon-purple); font-weight: bold;">₹50.00</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-panel" style="padding: 20px;">
+                <h3 style="margin-bottom: 15px;">ADD FUNDS</h3>
+                
+                <div id="deposit-step-1">
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px;">
+                        <button class="btn btn-secondary" onclick="wallet.setAmount(500)">₹500</button>
+                        <button class="btn btn-secondary" onclick="wallet.setAmount(1000)">₹1000</button>
+                        <button class="btn btn-secondary" onclick="wallet.setAmount(5000)">₹5000</button>
+                    </div>
+                    <div class="input-group">
+                        <span style="position: absolute; left: 15px; top: 14px; color: white; font-weight: bold;">₹</span>
+                        <input type="number" id="depositInput" class="input-field" placeholder="Enter Amount" style="padding-left: 30px; font-weight: bold; font-size: 1.2rem;">
+                    </div>
+                    <button class="btn btn-primary btn-full" onclick="wallet.initiatePayment()">PROCEED TO PAY</button>
+                    
+                     <div style="margin-top: 20px; display: flex; gap: 15px; justify-content: center; opacity: 0.6;">
+                        <i class="fab fa-google-pay fa-2x"></i>
+                        <i class="fab fa-cc-visa fa-2x"></i>
+                        <i class="fas fa-university fa-2x"></i>
+                    </div>
+                </div>
+
+                <div id="deposit-step-2" style="display: none; text-align: center; padding: 20px 0;">
+                    <h3 class="text-gradient">SECURE GATEWAY</h3>
+                    <p class="text-secondary" style="font-size: 0.9rem; margin-top: 5px;">Verifying single-click payment...</p>
+                    <div class="gp-loader">
+                        <div class="gp-dot"></div><div class="gp-dot"></div><div class="gp-dot"></div>
+                    </div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/UPI-Logo-vector.svg/1200px-UPI-Logo-vector.svg.png" style="height: 30px; opacity: 0.8; filter: invert(1);">
+                </div>
+
+                <div id="deposit-step-3" style="display: none; text-align: center;">
+                    <i class="fas fa-check-circle" style="font-size: 4rem; color: var(--success); margin-bottom: 15px;"></i>
+                    <h2>SUCCESS</h2>
+                    <p>Funds added to wallet.</p>
+                    <button class="btn btn-secondary" style="margin-top: 20px;" onclick="wallet.reset()">DONE</button>
+                </div>
+            </div>
+
+            <h3 style="margin: 25px 0 15px 0;">HISTORY</h3>
+            <div class="glass-panel" id="txList">
+                </div>
+        </section>
+        <section id="view-rewards" class="view">
+            <h2 class="text-center text-glow" style="margin-bottom: 20px;">DAILY BOUNTY</h2>
+            
+            <div class="glass-panel" style="text-align: center; padding: 30px; border-color: var(--neon-gold);">
+                <i class="fas fa-calendar-check" style="font-size: 3rem; color: var(--neon-gold); margin-bottom: 15px;"></i>
+                <h3>DAY 3 STREAK</h3>
+                <div style="display: flex; justify-content: center; gap: 8px; margin: 20px 0;">
+                    <div class="status-badge status-active">1</div>
+                    <div class="status-badge status-active">2</div>
+                    <div class="status-badge status-active" style="background: var(--neon-gold); color: black;">3</div>
+                    <div class="status-badge" style="background: #333;">4</div>
+                    <div class="status-badge" style="background: #333;">5</div>
+                </div>
+                <button class="btn btn-primary btn-full">CLAIM REWARD</button>
+            </div>
+        </section>
+
+        <section id="view-admin" class="view">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="color: var(--danger);">ADMIN CONSOLE</h2>
+                <button class="btn btn-secondary btn-sm" onclick="auth.logout()">LOGOUT</button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+                <div class="glass-panel" style="text-align: center; padding: 15px;">
+                    <h2 class="text-success">1,204</h2>
+                    <small>Online Users</small>
+                </div>
+                <div class="glass-panel" style="text-align: center; padding: 15px;">
+                    <h2 class="text-gold">₹8.4L</h2>
+                    <small>Total Deposits</small>
+                </div>
+            </div>
+
+            <div class="glass-panel" style="padding: 0; overflow: hidden;">
+                <div style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3);">
+                    <h4>USER MANAGEMENT</h4>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th style="padding-left: 15px;">User ID</th>
+                            <th>Bal</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminUserTableBody">
+                        </tbody>
+                </table>
+            </div>
+            <div class="glass-panel" style="margin-top: 20px; padding: 15px;">
+                <h4>GAME CONTROL</h4>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-bottom: 10px; border-bottom: 1px solid #333;">
+                    <span>Chicken Road</span>
+                    <div class="status-badge status-active" style="cursor: pointer;">ENABLED</div>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                    <span>Lucky Spin X</span>
+                    <div class="status-badge status-active" style="cursor: pointer;">ENABLED</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="app.router('home')" id="nav-home">
+            <i class="fas fa-home"></i> <span>Home</span>
+        </div>
+        <div class="nav-item" onclick="app.router('rewards')" id="nav-rewards">
+            <i class="fas fa-gift"></i> <span>Rewards</span>
+        </div>
+        <div class="nav-item" onclick="app.router('wallet')" id="nav-wallet">
+            <i class="fas fa-wallet"></i> <span>Wallet</span>
+        </div>
+        <div class="nav-item" onclick="auth.logoutConfirmation()" id="nav-profile">
+            <i class="fas fa-user"></i> <span>Profile</span>
+        </div>
+    </nav>
+
+    <div id="gameModal" class="modal-backdrop">
+        <div class="modal-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 id="modalGameTitle" class="text-gradient">GAME TITLE</h3>
+                <i class="fas fa-times" onclick="game.close()" style="font-size: 1.5rem; cursor: pointer;"></i>
+            </div>
+            
+            <div style="background: black; height: 200px; border-radius: 12px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--neon-purple); position: relative; overflow: hidden;">
+                <div style="position: absolute; width: 100%; height: 100%; background: repeating-linear-gradient(0deg, transparent, transparent 1px, #00f0ff 1px, #00f0ff 2px); opacity: 0.1;"></div>
+                <h4 style="color: white; z-index: 2;">GAME LOADING...</h4>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <span class="text-secondary">Your Balance</span>
+                    <span class="text-gold" style="font-weight: bold;">₹<span class="modal-bal">0</span></span>
+                </div>
+                <button class="btn btn-primary btn-full" style="height: 50px; font-size: 1.2rem;">PLAY NOW</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        /* --- CREDENTIAL DATABASE --- */
+        // This stores the valid usernames and passwords you provided
+        const USER_DB = [
+            { user: "admin", pass: "admin123", role: "admin" },
+            { user: "user", pass: "password", role: "user" },
+            { user: "user01", pass: "123456", role: "user" },
+            { user: "admin_user", pass: "Admin@123", role: "admin" },
+            { user: "player1", pass: "play@123", role: "user" },
+            { user: "dev", pass: "dev#2025", role: "admin" },
+            { user: "guest", pass: "guest@123", role: "user" },
+            { user: "admin", pass: "A1@d9#xP", role: "admin" }, // Duplicate admin handled
+            { user: "welcome", pass: "hello123", role: "user" },
+            { user: "test", pass: "test1234", role: "user" }
+        ];
+
+        /* --- APPLICATION STATE --- */
+        const state = {
+            isAuthenticated: false,
+            balance: 0,
+            user: null,
+            transactions: []
+        };
+
+        /* --- DATA --- */
+        const gamesList = [
+            { id: 1, name: "Chicken Road", win: "₹50,000", img: "fas fa-kiwi-bird", color: "#ffaa00" },
+            { id: 2, name: "Chicken Road 2X", win: "₹1 Lakh", img: "fas fa-road", color: "#ff5500" },
+            { id: 3, name: "Chicken Multiplier", win: "₹5 Lakhs", img: "fas fa-times", color: "#ff0000" },
+            { id: 4, name: "Crash Rocket", win: "Unlimited", img: "fas fa-rocket", color: "#00f0ff" },
+            { id: 5, name: "Lucky Spin X", win: "₹10,000", img: "fas fa-dharmachakra", color: "#bc13fe" },
+            { id: 6, name: "Speed Racer Pro", win: "₹25,000", img: "fas fa-flag-checkered", color: "#ffffff" },
+            { id: 7, name: "Neon Shooter Arena", win: "₹5,000", img: "fas fa-bullseye", color: "#00ffa3" },
+            { id: 8, name: "Reflex Tap Master", win: "₹2,000", img: "fas fa-hand-pointer", color: "#ff0055" },
+            { id: 9, name: "Puzzle Win Quest", win: "₹8,000", img: "fas fa-puzzle-piece", color: "#ffff00" },
+            { id: 10, name: "Gold Coin Rush", win: "₹15,000", img: "fas fa-coins", color: "#ffd700" }
+        ];
+        const dummyUsers = [
+            { id: "USR_9921", bal: 12400, status: "Active" },
+            { id: "USR_8822", bal: 450, status: "Active" },
+            { id: "USR_1101", bal: 0, status: "Blocked" },
+            { id: "USR_7743", bal: 56000, status: "Active" }
+        ];
+
+        /* --- MODULES --- */
+        
+        const app = {
+            init: () => {
+                app.renderGames();
+                app.renderAdmin();
+                app.router('auth'); // Start at Auth
+                
+                // Animating Background Float
+                const style = document.createElement('style');
+                style.innerHTML = `@keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0px); } }`;
+                document.head.appendChild(style);
+            },
+
+            router: (viewId) => {
+                // Guard Clause: Prevent access if not logged in
+                if (viewId !== 'auth' && !state.isAuthenticated) {
+                    return app.router('auth');
+                }
+
+                // Hide all views
+                document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+                
+                // Show target view
+                const target = document.getElementById(`view-${viewId}`);
+                if(target) target.classList.add('active');
+
+                // Toggle Nav Visibility
+                const topNav = document.getElementById('topNav');
+                const botNav = document.querySelector('.bottom-nav');
+                
+                if (viewId === 'auth') {
+                    topNav.style.display = 'flex'; // Show simplified header
+                    document.getElementById('authActions').style.display = 'block';
+                    document.getElementById('userActions').style.display = 'none';
+                    botNav.style.display = 'none';
+                } else {
+                    document.getElementById('authActions').style.display = 'none';
+                    document.getElementById('userActions').style.display = 'block';
+                    
+                    if(viewId === 'admin') {
+                         botNav.style.display = 'none';
+                         topNav.style.display = 'none'; // Fullscreen admin
+                    } else {
+                         botNav.style.display = 'flex';
+                         topNav.style.display = 'flex';
+                    }
+                }
+      // Update Bottom Nav Active State
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                const navItem = document.getElementById(`nav-${viewId}`);
+                if (navItem) navItem.classList.add('active');
+
+                window.scrollTo(0,0);
+            },
+
+            renderGames: () => {
+                const grid = document.getElementById('gameGridContainer');
+                grid.innerHTML = gamesList.map(g => `
+                    <div class="game-card" onclick="game.open('${g.name}')">
+                        <div class="game-thumb">
+                            <i class="${g.img}" style="color: ${g.color}; text-shadow: 0 0 15px ${g.color};"></i>
+                        </div>
+                        <div class="game-meta">
+                            <span class="game-title">${g.name}</span>
+                            <span class="game-win">Win up to ${g.win}</span>
+                        </div>
+                        <div class="play-overlay">
+                            <button class="btn btn-primary btn-sm">PLAY</button>
+                        </div>
+                    </div>
+                `).join('');
+            },
+
+            renderAdmin: () => {
+                const tbody = document.getElementById('adminUserTableBody');
+                tbody.innerHTML = dummyUsers.map(u => `
+                    <tr>
+                        <td style="padding-left: 15px;">${u.id}</td>
+                        <td class="text-gold">₹${u.bal}</td>
+                        <td><span class="status-badge ${u.status === 'Active' ? 'status-active' : 'status-blocked'}">${u.status}</span></td>
+                    </tr>
+                `).join('');
+            },
+
+            updateBalanceUI: () => {
+                const els = ['navBalance', 'walletBal'];
+                els.forEach(id => {
+                    const el = document.getElementById(id);
+                    if(el) el.innerText = state.balance.toLocaleString('en-IN');
+                });
+                document.querySelectorAll('.modal-bal').forEach(el => el.innerText = state.balance);
+            }
+        };
+        const auth = {
+            login: () => {
+                const userInput = document.getElementById('usernameInput');
+                const passInput = document.getElementById('passwordInput');
+                const errorMsg = document.getElementById('loginError');
+
+                const username = userInput.value.trim();
+                const password = passInput.value.trim();
+
+                if(!username || !password) {
+                    auth.showError("Please fill all fields");
+                    return;
+                }
+
+                // CHECK DATABASE
+                const account = USER_DB.find(acc => acc.user === username && acc.pass === password);
+
+                if (account) {
+                    // LOGIN SUCCESS
+                    state.isAuthenticated = true;
+                    state.balance = 500; // Starting Bonus
+                    state.user = account.user;
+                    
+                    document.getElementById('userDisplayName').innerText = account.user.toUpperCase();
+                    app.updateBalanceUI();
+                    
+                    // Route based on Role
+                    if(account.role === 'admin') {
+                        app.router('admin');
+                    } else {
+                        app.router('home');
+                    }
+                    
+                    // Clear inputs
+                    userInput.value = '';
+                    passInput.value = '';
+                    errorMsg.style.display = 'none';
+
+                } else {
+                    // LOGIN FAILED
+                    auth.showError("Invalid Username or Password");
+                    passInput.value = '';
+                    // Shake animation
+                    userInput.classList.add('shake');
+                    passInput.classList.add('shake');
+                    setTimeout(() => {
+                        userInput.classList.remove('shake');
+                        passInput.classList.remove('shake');
+                    }, 500);
+                }
+            },
+            showError: (msg) => {
+                const el = document.getElementById('loginError');
+                el.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${msg}`;
+                el.style.display = 'block';
+            },
+
+            logout: () => {
+                state.isAuthenticated = false;
+                app.router('auth');
+                document.getElementById('usernameInput').value = '';
+                document.getElementById('passwordInput').value = '';
+            },
+
+            logoutConfirmation: () => {
+                if(confirm("Are you sure you want to securely sign out?")) {
+                    auth.logout();
+                }
+            }
+        };
+
+        const wallet = {
+            setAmount: (amt) => {
+                document.getElementById('depositInput').value = amt;
+            },
+
+            initiatePayment: () => {
+                const amt = document.getElementById('depositInput').value;
+                if(!amt || amt < 1) return alert("Enter valid amount");
+
+                // Switch UI to Loader
+                document.getElementById('deposit-step-1').style.display = 'none';
+                document.getElementById('deposit-step-2').style.display = 'block';
+
+                setTimeout(() => {
+                    // Success State
+                    state.balance += parseInt(amt);
+                    app.updateBalanceUI();
+                    wallet.addTransaction(amt, 'Deposit');
+
+                    document.getElementById('deposit-step-2').style.display = 'none';
+                    document.getElementById('deposit-step-3').style.display = 'block';
+                }, 2500);
+            },
+            reset: () => {
+                document.getElementById('deposit-step-3').style.display = 'none';
+                document.getElementById('deposit-step-1').style.display = 'block';
+                document.getElementById('depositInput').value = '';
+            },
+
+            addTransaction: (amount, type) => {
+                const container = document.getElementById('txList');
+                const date = new Date().toLocaleDateString();
+                const html = `
+                    <div class="transaction-item">
+                        <div>
+                            <div style="font-weight: bold; color: white;">${type} via UPI</div>
+                            <div style="font-size: 0.7rem; color: #888;">${date} • Success</div>
+                        </div>
+                        <div class="text-success">+₹${amount}</div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('afterbegin', html);
+            }
+        };
+
+        const game = {
+            open: (title) => {
+                document.getElementById('modalGameTitle').innerText = title;
+                document.getElementById('gameModal').classList.add('modal-active');
+            },
+            close: () => {
+                document.getElementById('gameModal').classList.remove('modal-active');
+            }
+        };
+
+        // Initialize App
+        window.addEventListener('DOMContentLoaded', app.init);
+
+    </script>
+</body>
+</html>
